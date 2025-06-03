@@ -1,0 +1,24 @@
+# evo-tech
+def ver_catalogo():
+    print("\n🎮 Catálogo de Jogos Modernos:")
+    for i, jogo in enumerate(jogos, 1):
+        print(f"{i}. {jogo['nome']} - R$ {jogo['preço']:.2f}")
+    print("0. Voltar")
+
+    while True:
+        escolha = input("Digite o número do jogo para adicionar ao carrinho ou 0 para voltar: ").strip()
+        if escolha == "0":
+            break
+        if escolha.isdigit() and 1 <= int(escolha) <= len(jogos):
+            index = int(escolha) - 1
+            adicionar_ao_carrinho(jogos[index])
+        else:
+            print("❌ Opção inválida.")
+
+def adicionar_ao_carrinho(jogo):
+    nome = jogo['nome']
+    if nome in carrinho:
+        carrinho[nome]['quantidade'] += 1
+    else:
+        carrinho[nome] = {'preço': jogo['preço'], 'quantidade': 1}
+    print(f"✅ '{nome}' adicionado ao carrinho. Quantidade: {carrinho[nome]['quantidade']}")
