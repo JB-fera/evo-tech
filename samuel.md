@@ -1,17 +1,3 @@
-def coletar_dados_entrega():
-    print("\n== Dados para entrega ==")
-    nome = input("Nome completo: ").strip()
-    endereco = input("Endereço completo: ").strip()
-    telefone = input("Telefone para contato: ").strip()
-
-    if not nome or not endereco or not telefone:
-        print("❌ Todos os campos são obrigatórios.")
-        return False
-
-    dados_entrega['nome'] = nome
-    dados_entrega['endereco'] = endereco
-    dados_entrega['telefone'] = telefone
-    return True
 
 def escolher_metodo_pagamento():
     print("\n== Métodos de Pagamento ==")
