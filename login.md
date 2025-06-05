@@ -16,14 +16,10 @@ carrinho = {}
 # Dados do usuário para a compra
 dados_entrega = {}
 
-# Catálogo de jogos
-jogos = [
-    {"nome": "Elden Ring", "preço": 249.90},
-    {"nome": "Cyberpunk 2077", "preço": 199.90},
-    {"nome": "The Last of Us Part II", "preço": 229.90},
-    {"nome": "God of War Ragnarok", "preço": 279.90},
-]
+# Catálogo de jogos (com classificação e tamanho)
 
+
+# ===== DADOS (login, cadastro e logout) =====
 def exibir_menu():
     print("\n=== E-commerce de Games Modernos ===")
     if usuario_logado:
@@ -52,8 +48,8 @@ def logout():
     global usuario_logado, carrinho, dados_entrega
     print(f"👋 Até logo, {usuario_logado['nome']}!")
     usuario_logado = None
-    carrinho = {}  # limpa o carrinho no logout
-    dados_entrega = {}
+    carrinho.clear()  # limpa o carrinho no logout
+    dados_entrega.clear()
 
 def cadastrar_usuario():
     print("\n== Cadastro de Novo Usuário ==")
