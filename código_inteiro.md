@@ -1,9 +1,5 @@
 import sys
 
-# ============================
-# 🧾 DADOS (login, cadastro e logout)
-# ============================
-
 # Banco de dados simulado (usuários cadastrados)
 usuarios = {
     'gamer123': {'senha': 'senha123', 'nome': 'Carlos Gamer'},
@@ -13,6 +9,33 @@ usuarios = {
 
 # Usuário atualmente logado
 usuario_logado = None
+
+# Carrinho do usuário logado (dicionário com nome do jogo e quantidade)
+carrinho = {}
+
+# Dados do usuário para a compra
+dados_entrega = {}
+
+# Catálogo de jogos (com classificação e tamanho)
+jogos = [
+    {"nome": "Elden Ring", "preço": 249.90, "classificacao": "16+", "tamanho_gb": 50},
+    {"nome": "Cyberpunk 2077", "preço": 199.90, "classificacao": "18+", "tamanho_gb": 70},
+    {"nome": "The Last of Us Part II", "preço": 229.90, "classificacao": "18+", "tamanho_gb": 78},
+    {"nome": "God of War Ragnarok", "preço": 279.90, "classificacao": "18+", "tamanho_gb": 90},
+]
+
+# ===== DADOS (login, cadastro e logout) =====
+def exibir_menu():
+    print("\n=== E-commerce de Games Modernos ===")
+    if usuario_logado:
+        print(f"🔓 Logado como: {usuario_logado['nome']}")
+        print("1. Ver catálogo de jogos")
+        print("2. Ver carrinho")
+        print("3. Logout")
+    else:
+        print("1. Login")
+        print("2. Cadastrar novo usuário")
+    print("0. Sair")
 
 def login():
     global usuario_logado
@@ -30,8 +53,8 @@ def logout():
     global usuario_logado, carrinho, dados_entrega
     print(f"👋 Até logo, {usuario_logado['nome']}!")
     usuario_logado = None
-    carrinho = {}
-    dados_entrega = {}
+    carrinho.clear()  # limpa o carrinho no logout
+    dados_entrega.clear()
 
 def cadastrar_usuario():
     print("\n== Cadastro de Novo Usuário ==")
@@ -45,22 +68,11 @@ def cadastrar_usuario():
     usuarios[novo_usuario] = {'senha': senha, 'nome': nome}
     print("✅ Usuário cadastrado com sucesso!")
 
-# ============================
-# 🎮 CATÁLOGO
-# ============================
-
-# Catálogo de jogos
-jogos = [
-    {"nome": "Elden Ring", "preço": 249.90},
-    {"nome": "Cyberpunk 2077", "preço": 199.90},
-    {"nome": "The Last of Us Part II", "preço": 229.90},
-    {"nome": "God of War Ragnarok", "preço": 279.90},
-]
-
+# ===== CATÁLOGO =====
 def ver_catalogo():
     print("\n🎮 Catálogo de Jogos Modernos:")
     for i, jogo in enumerate(jogos, 1):
-        print(f"{i}. {jogo['nome']} - R$ {jogo['preço']:.2f}")
+        print(f"{i}. {jogo['nome']} - R$ {jogo['preço']:.2f} | Classificação: {jogo['classificacao']} | Tamanho: {jogo['tamanho_gb']} GB")
     print("0. Voltar")
 
     while True:
@@ -73,21 +85,23 @@ def ver_catalogo():
         else:
             print("❌ Opção inválida.")
 
-# ============================
-# 🛒 CARRINHO
-# ============================
+# ===== DADOS PARA ENTREGA =====
+def coletar_dados_entrega():
+    print("\n== Dados para entrega ==")
+    nome = input("Nome completo: ").strip()
+    endereco = input("Endereço completo: ").strip()
+    telefone = input("Telefone para contato: ").strip()
 
-# Carrinho do usuário logado (dicionário com nome do jogo e quantidade)
-carrinho = {}
+    if not nome or not endereco or not telefone:
+        print("❌ Todos os campos são obrigatórios.")
+        return False
 
-def adicionar_ao_carrinho(jogo):
-    nome = jogo['nome']
-    if nome in carrinho:
-        carrinho[nome]['quantidade'] += 1
-    else:
-        carrinho[nome] = {'preço': jogo['preço'], 'quantidade': 1}
-    print(f"✅ '{nome}' adicionado ao carrinho. Quantidade: {carrinho[nome]['quantidade']}")
+    dados_entrega['nome'] = nome
+    dados_entrega['endereco'] = endereco
+    dados_entrega['telefone'] = telefone
+    return True
 
+# ===== CARRINHO =====
 def ver_carrinho():
     print("\n🛒 Seu Carrinho:")
     if not carrinho:
@@ -134,32 +148,15 @@ def remover_item_carrinho():
     else:
         print("❌ Opção inválida.")
 
-# ============================
-# 📦 DADOS PARA ENTREGA
-# ============================
+def adicionar_ao_carrinho(jogo):
+    nome = jogo['nome']
+    if nome in carrinho:
+        carrinho[nome]['quantidade'] += 1
+    else:
+        carrinho[nome] = {'preço': jogo['preço'], 'quantidade': 1}
+    print(f"✅ '{nome}' adicionado ao carrinho. Quantidade: {carrinho[nome]['quantidade']}")
 
-# Dados do usuário para a compra
-dados_entrega = {}
-
-def coletar_dados_entrega():
-    print("\n== Dados para entrega ==")
-    nome = input("Nome completo: ").strip()
-    endereco = input("Endereço completo: ").strip()
-    telefone = input("Telefone para contato: ").strip()
-
-    if not nome or not endereco or not telefone:
-        print("❌ Todos os campos são obrigatórios.")
-        return False
-
-    dados_entrega['nome'] = nome
-    dados_entrega['endereco'] = endereco
-    dados_entrega['telefone'] = telefone
-    return True
-
-# ============================
-# 💳 FINALIZAR COMPRA
-# ============================
-
+# ===== FINALIZAR COMPRA =====
 def escolher_metodo_pagamento():
     print("\n== Métodos de Pagamento ==")
     print("1. Cartão de Crédito")
@@ -204,25 +201,11 @@ def finalizar_compra():
     print(f"Total a pagar: R$ {total:.2f}")
     print("✅ Compra finalizada com sucesso! Obrigado pela preferência.")
 
+    # Limpa carrinho e dados após compra
     carrinho.clear()
     dados_entrega.clear()
 
-# ============================
-# 🎯 LOOP PRINCIPAL
-# ============================
-
-def exibir_menu():
-    print("\n=== E-commerce de Games Modernos ===")
-    if usuario_logado:
-        print(f"🔓 Logado como: {usuario_logado['nome']}")
-        print("1. Ver catálogo de jogos")
-        print("2. Ver carrinho")
-        print("3. Logout")
-    else:
-        print("1. Login")
-        print("2. Cadastrar novo usuário")
-    print("0. Sair")
-
+# Loop principal
 while True:
     exibir_menu()
     escolha = input("Escolha uma opção: ").strip()
