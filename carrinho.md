@@ -43,3 +43,11 @@ def remover_item_carrinho():
         print(f"✅ '{nome}' removido do carrinho.")
     else:
         print("❌ Opção inválida.")
+
+def adicionar_ao_carrinho(jogo):
+    nome = jogo['nome']
+    if nome in carrinho:
+        carrinho[nome]['quantidade'] += 1
+    else:
+        carrinho[nome] = {'preço': jogo['preço'], 'quantidade': 1}
+    print(f"✅ '{nome}' adicionado ao carrinho. Quantidade: {carrinho[nome]['quantidade']}")
