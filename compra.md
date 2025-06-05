@@ -1,3 +1,4 @@
+# ===== DADOS PARA ENTREGA =====
 def coletar_dados_entrega():
     print("\n== Dados para entrega ==")
     nome = input("Nome completo: ").strip()
@@ -13,6 +14,8 @@ def coletar_dados_entrega():
     dados_entrega['telefone'] = telefone
     return True
 
+
+# ===== FINALIZAR COMPRA =====
 def escolher_metodo_pagamento():
     print("\n== Métodos de Pagamento ==")
     print("1. Cartão de Crédito")
