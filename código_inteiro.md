@@ -28,7 +28,7 @@ jogos = [
 def exibir_menu():
     print("\n=== E-commerce de Games Modernos ===")
     if usuario_logado:
-        print(f"🔓 Logado como: {usuario_logado['nome']}")
+        print(f" Logado como: {usuario_logado['nome']}")
         print("1. Ver catálogo de jogos")
         print("2. Ver carrinho")
         print("3. Logout")
@@ -45,13 +45,13 @@ def login():
 
     if usuario in usuarios and usuarios[usuario]['senha'] == senha:
         usuario_logado = {'usuario': usuario, 'nome': usuarios[usuario]['nome']}
-        print(f"✅ Bem-vindo(a), {usuario_logado['nome']}!")
+        print(f" Bem-vindo(a), {usuario_logado['nome']}!")
     else:
-        print("❌ Usuário ou senha inválidos.")
+        print(" Usuário ou senha inválidos.")
 
 def logout():
     global usuario_logado, carrinho, dados_entrega
-    print(f"👋 Até logo, {usuario_logado['nome']}!")
+    print(f" Até logo, {usuario_logado['nome']}!")
     usuario_logado = None
     carrinho.clear()  # limpa o carrinho no logout
     dados_entrega.clear()
@@ -60,17 +60,17 @@ def cadastrar_usuario():
     print("\n== Cadastro de Novo Usuário ==")
     novo_usuario = input("Escolha um nome de usuário: ").strip()
     if novo_usuario in usuarios:
-        print("⚠️ Esse nome de usuário já está em uso.")
+        print("Esse nome de usuário já está em uso.")
         return
     nome = input("Seu nome completo: ").strip()
     senha = input("Crie uma senha: ").strip()
 
     usuarios[novo_usuario] = {'senha': senha, 'nome': nome}
-    print("✅ Usuário cadastrado com sucesso!")
+    print("Usuário cadastrado com sucesso!")
 
 # ===== CATÁLOGO =====
 def ver_catalogo():
-    print("\n🎮 Catálogo de Jogos Modernos:")
+    print("\n Catálogo de Jogos Modernos:")
     for i, jogo in enumerate(jogos, 1):
         print(f"{i}. {jogo['nome']} - R$ {jogo['preço']:.2f} | Classificação: {jogo['classificacao']} | Tamanho: {jogo['tamanho_gb']} GB")
     print("0. Voltar")
@@ -83,7 +83,7 @@ def ver_catalogo():
             index = int(escolha) - 1
             adicionar_ao_carrinho(jogos[index])
         else:
-            print("❌ Opção inválida.")
+            print("Opção inválida.")
 
 # ===== DADOS PARA ENTREGA =====
 def coletar_dados_entrega():
@@ -93,7 +93,7 @@ def coletar_dados_entrega():
     telefone = input("Telefone para contato: ").strip()
 
     if not nome or not endereco or not telefone:
-        print("❌ Todos os campos são obrigatórios.")
+        print("Todos os campos são obrigatórios.")
         return False
 
     dados_entrega['nome'] = nome
@@ -127,7 +127,7 @@ def ver_carrinho():
     elif escolha == "0":
         return
     else:
-        print("❌ Opção inválida.")
+        print("Opção inválida.")
 
 def remover_item_carrinho():
     if not carrinho:
@@ -144,9 +144,9 @@ def remover_item_carrinho():
     if escolha.isdigit() and 1 <= int(escolha) <= len(nomes):
         nome = nomes[int(escolha) - 1]
         del carrinho[nome]
-        print(f"✅ '{nome}' removido do carrinho.")
+        print(f" '{nome}' removido do carrinho.")
     else:
-        print("❌ Opção inválida.")
+        print("Opção inválida.")
 
 def adicionar_ao_carrinho(jogo):
     nome = jogo['nome']
@@ -154,7 +154,7 @@ def adicionar_ao_carrinho(jogo):
         carrinho[nome]['quantidade'] += 1
     else:
         carrinho[nome] = {'preço': jogo['preço'], 'quantidade': 1}
-    print(f"✅ '{nome}' adicionado ao carrinho. Quantidade: {carrinho[nome]['quantidade']}")
+    print(f" '{nome}' adicionado ao carrinho. Quantidade: {carrinho[nome]['quantidade']}")
 
 # ===== FINALIZAR COMPRA =====
 def escolher_metodo_pagamento():
@@ -174,7 +174,7 @@ def escolher_metodo_pagamento():
     elif escolha == "0":
         return None
     else:
-        print("❌ Opção inválida.")
+        print("Opção inválida.")
         return escolher_metodo_pagamento()
 
 def finalizar_compra():
@@ -183,7 +183,7 @@ def finalizar_compra():
         return
 
     if not coletar_dados_entrega():
-        print("❌ Falha ao coletar dados de entrega. Cancelando compra.")
+        print("Falha ao coletar dados de entrega. Cancelando compra.")
         return
 
     metodo = escolher_metodo_pagamento()
@@ -199,7 +199,7 @@ def finalizar_compra():
     print(f"Telefone: {dados_entrega['telefone']}")
     print(f"Método de pagamento: {metodo}")
     print(f"Total a pagar: R$ {total:.2f}")
-    print("✅ Compra finalizada com sucesso! Obrigado pela preferência.")
+    print("Compra finalizada com sucesso! Obrigado pela preferência.")
 
     # Limpa carrinho e dados após compra
     carrinho.clear()
@@ -223,7 +223,7 @@ while True:
     elif escolha == "3" and usuario_logado:
         logout()
     elif escolha == "0":
-        print("🛒 Obrigado por visitar nosso e-commerce de games. Até mais!")
+        print("Obrigado por visitar nosso e-commerce de games. Até mais!")
         sys.exit()
     else:
-        print("❌ Opção inválida.")
+        print("Opção inválida.")
